@@ -11,13 +11,13 @@ export default function SystemHealth() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="glass-panel p-5">
-        <h2 className="text-lg font-bold text-white flex items-center gap-2">
-          <HeartPulse className="w-5 h-5 text-emerald-400" />
+    <div className="space-y-6 max-w-7xl mx-auto pb-10">
+      <div className="theme-card p-6">
+        <h2 className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
+          <HeartPulse className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           System Diagnostics & Architecture Infrastructure
         </h2>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-[var(--text-secondary)] mt-1">
           Real-time health monitoring of microservices, ML model inference latency, and database transaction performance.
         </p>
       </div>
@@ -26,14 +26,14 @@ export default function SystemHealth() {
         {services.map((s, idx) => {
           const Icon = s.icon;
           return (
-            <div key={idx} className="glass-panel p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+            <div key={idx} className="theme-card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">{s.name}</h4>
-                  <div className="flex items-center gap-3 text-xs text-gray-400 font-mono mt-0.5">
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]">{s.name}</h4>
+                  <div className="flex items-center gap-3 text-xs text-[var(--text-secondary)] font-mono mt-0.5">
                     <span>Latency: {s.latency}</span>
                     <span>•</span>
                     <span>Uptime: {s.uptime}</span>
@@ -42,7 +42,7 @@ export default function SystemHealth() {
               </div>
 
               <div className="flex items-center gap-2 self-end sm:self-center">
-                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   {s.status}
                 </span>

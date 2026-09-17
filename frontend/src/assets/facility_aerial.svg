@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="plantGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="overlayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(0,0,0,0.1)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.7)" />
+    </linearGradient>
+  </defs>
+  <!-- Background Terrain -->
+  <rect width="400" height="160" fill="url(#skyGrad)" />
+  
+  <!-- Facility Structures & Tank farm silhouettes -->
+  <!-- Ground grid -->
+  <path d="M 0,110 L 400,110 M 0,130 L 400,130 M 50,70 L 20,160 M 120,70 L 100,160 M 200,70 L 190,160 M 280,70 L 290,160 M 350,70 L 370,160" stroke="#334155" stroke-width="1" opacity="0.4" />
+  
+  <!-- Main Processing Building -->
+  <polygon points="110,65 240,40 310,75 180,100" fill="#475569" />
+  <polygon points="110,65 180,100 180,130 110,95" fill="#334155" />
+  <polygon points="180,100 310,75 310,105 180,130" fill="#1e293b" />
+  
+  <!-- Storage Tanks (Cylinders) -->
+  <ellipse cx="60" cy="90" rx="20" ry="10" fill="#64748b" />
+  <rect x="40" y="90" width="40" height="25" fill="#475569" />
+  <ellipse cx="60" cy="115" rx="20" ry="10" fill="#334155" />
+  
+  <ellipse cx="95" cy="100" rx="16" ry="8" fill="#64748b" />
+  <rect x="79" y="100" width="32" height="20" fill="#475569" />
+  <ellipse cx="95" cy="120" rx="16" ry="8" fill="#334155" />
+
+  <!-- Chimneys & Flares with subtle glow -->
+  <rect x="250" y="25" width="6" height="55" fill="#64748b" />
+  <rect x="265" y="20" width="6" height="60" fill="#64748b" />
+  <circle cx="268" cy="18" r="3" fill="#f97316" opacity="0.8" />
+
+  <!-- Solar arrays / Warehouse -->
+  <polygon points="320,85 380,75 390,95 330,105" fill="#0284c7" opacity="0.7" />
+  
+  <!-- Subtle Gradient Overlay -->
+  <rect width="400" height="160" fill="url(#overlayGrad)" />
+</svg>

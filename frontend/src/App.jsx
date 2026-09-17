@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import EmergencyModal from './components/EmergencyModal';
+import ReportModal from './components/ReportModal';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -22,14 +23,18 @@ import Login from './pages/Login';
 import { INITIAL_SENSORS, POPULATION_ZONES, INITIAL_ALERTS, SIMULATION_STAGES } from './data/mockData';
 
 export default function App() {
-  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+  const [currentStageIndex, setCurrentStageIndex] = useState(4);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isSimulationOpen, setIsSimulationOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState('Tank Farm T-04');
   const [alerts, setAlerts] = useState(INITIAL_ALERTS);
 
   const currentStage = SIMULATION_STAGES[currentStageIndex];
 
-  // Auto-play simulation interval loop
+  // Auto-play simulation loop
   useEffect(() => {
     let interval = null;
     if (isPlaying) {
@@ -37,7 +42,6 @@ export default function App() {
         setCurrentStageIndex((prev) => {
           if (prev < SIMULATION_STAGES.length - 1) {
             const next = prev + 1;
-            // Append alert if entering high/critical stage
             if (next === 4 || next === 5) {
               setAlerts((prevAlerts) => [
                 {
@@ -82,7 +86,7 @@ export default function App() {
         timestamp: 'Just now',
         type: 'EMERGENCY_BROADCAST',
         severity: 'CRITICAL',
-        message: 'Level-3 Emergency SOP Executed: Community Siren Active, SMS sent to 6,250 devices, NDRF deployed.'
+        message: 'Level-3 Emergency SOP Executed: Community Siren Active, SMS sent to 3,400 devices, NDRF deployed.'
       },
       ...prev
     ]);
@@ -97,18 +101,51 @@ export default function App() {
         <Route
           path="/*"
           element={
-            <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
-              {/* Sidebar */}
-              <Sidebar onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)} />
+            <div
+              style={{
+                display: 'flex',
+                height: '100vh',
+                overflow: 'hidden',
+                background: 'var(--bg-primary)',
+                color: 'var(--text-primary)'
+              }}
+            >
+              {/* Responsive Sidebar */}
+              <Sidebar
+                isOpenMobile={isMobileNavOpen}
+                onCloseMobile={() => setIsMobileNavOpen(false)}
+                onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+              />
 
               {/* Main Content Area */}
-              <div className="flex-1 flex flex-col h-screen overflow-y-auto">
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100vh',
+                  overflowY: 'auto',
+                  minWidth: 0
+                }}
+              >
                 <Header
                   currentStage={currentStage}
                   onResetSimulation={handleReset}
+                  selectedUnit={selectedUnit}
+                  onSelectUnit={setSelectedUnit}
+                  onOpenReportModal={() => setIsReportModalOpen(true)}
+                  isSimulationOpen={isSimulationOpen}
+                  onToggleSimulation={() => setIsSimulationOpen(!isSimulationOpen)}
+                  onToggleMobileNav={() => setIsMobileNavOpen(!isMobileNavOpen)}
                 />
 
-                <main className="p-6 flex-1">
+                <main
+                  style={{
+                    flex: 1,
+                    padding: '24px 20px',
+                    overflowX: 'hidden'
+                  }}
+                >
                   <Routes>
                     <Route
                       path="/"
@@ -124,8 +161,13 @@ export default function App() {
                           zones={POPULATION_ZONES}
                           alerts={alerts}
                           onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+                          isSimulationOpen={isSimulationOpen}
                         />
                       }
+                    />
+                    <Route
+                      path="/sensors"
+                      element={<Sensors sensors={INITIAL_SENSORS} currentStage={currentStage} />}
                     />
                     <Route
                       path="/monitoring"
@@ -163,10 +205,6 @@ export default function App() {
                       }
                     />
                     <Route
-                      path="/sensors"
-                      element={<Sensors sensors={INITIAL_SENSORS} currentStage={currentStage} />}
-                    />
-                    <Route
                       path="/analytics"
                       element={<Analytics currentStage={currentStage} />}
                     />
@@ -195,6 +233,14 @@ export default function App() {
                 onClose={() => setIsEmergencyModalOpen(false)}
                 onConfirm={handleEmergencyConfirm}
                 currentStage={currentStage}
+              />
+
+              {/* Global Report Modal */}
+              <ReportModal
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                currentStage={currentStage}
+                unitName={selectedUnit}
               />
             </div>
           }

@@ -1,19 +1,17 @@
 import React from 'react';
 
 export default function RiskGauge({ score = 18, size = 180, showLabel = true }) {
-  // Clamping score between 0 and 100
   const normalizedScore = Math.max(0, Math.min(100, score));
   
-  // Circumference calculation for circular gauge
   const radius = 68;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (normalizedScore / 100) * (circumference * 0.75);
 
   const getColor = (s) => {
-    if (s >= 75) return '#ef4444'; // Red
-    if (s >= 50) return '#f97316'; // Orange
-    if (s >= 30) return '#f59e0b'; // Amber
-    return '#10b981'; // Emerald Safe
+    if (s >= 75) return '#dc2626'; // Red
+    if (s >= 50) return '#ea580c'; // Orange
+    if (s >= 30) return '#d97706'; // Amber
+    return '#16a34a'; // Emerald
   };
 
   const getLabel = (s) => {
@@ -34,13 +32,12 @@ export default function RiskGauge({ score = 18, size = 180, showLabel = true }) 
             cx="80"
             cy="80"
             r={radius}
-            stroke="currentColor"
+            stroke="var(--bg-tertiary)"
             strokeWidth="12"
             fill="transparent"
             strokeDasharray={circumference * 0.75}
             strokeDashoffset="0"
             strokeLinecap="round"
-            className="text-gray-800"
           />
           {/* Animated Value Arc */}
           <circle
@@ -54,9 +51,6 @@ export default function RiskGauge({ score = 18, size = 180, showLabel = true }) 
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             className="transition-all duration-700 ease-out"
-            style={{
-              filter: `drop-shadow(0 0 8px ${activeColor}80)`
-            }}
           />
         </svg>
 
@@ -64,9 +58,9 @@ export default function RiskGauge({ score = 18, size = 180, showLabel = true }) 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <span className="text-3xl font-extrabold tracking-tight" style={{ color: activeColor }}>
             {normalizedScore}
-            <span className="text-sm font-semibold opacity-70">/100</span>
+            <span className="text-sm font-semibold opacity-60">/100</span>
           </span>
-          <span className="text-[10px] uppercase font-mono tracking-wider text-gray-400 mt-0.5">
+          <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[var(--text-secondary)] mt-0.5">
             HAZARD INDEX
           </span>
         </div>
@@ -76,9 +70,9 @@ export default function RiskGauge({ score = 18, size = 180, showLabel = true }) 
         <div 
           className="mt-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-300"
           style={{
-            backgroundColor: `${activeColor}20`,
+            backgroundColor: `${activeColor}15`,
             color: activeColor,
-            border: `1px solid ${activeColor}60`
+            border: `1px solid ${activeColor}40`
           }}
         >
           {getLabel(normalizedScore)}

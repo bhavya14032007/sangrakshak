@@ -2,7 +2,6 @@ import React from 'react';
 import { Truck, AlertOctagon, CheckCircle2, Navigation, Clock, Shield } from 'lucide-react';
 
 export default function RelocationTable({ zones = [], currentStage, onTriggerEvacuation }) {
-  // Compute dynamic relocation priority ranking
   const rankedZones = [...zones].map((zone) => {
     let score = 20;
     let status = 'STANDBY';
@@ -27,14 +26,14 @@ export default function RelocationTable({ zones = [], currentStage, onTriggerEva
   }).sort((a, b) => b.relocationScore - a.relocationScore);
 
   return (
-    <div className="glass-panel p-5">
+    <div className="theme-card p-6">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Truck className="w-4 h-4 text-cyan-400" />
+          <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
+            <Truck className="w-4 h-4 text-blue-600" />
             Vulnerable Habitation Relocation Intelligence Matrix
           </h3>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-[var(--text-secondary)]">
             Automated priority ranking based on Hazard Plume Proximity × Population Carrying Overload
           </p>
         </div>
@@ -42,19 +41,19 @@ export default function RelocationTable({ zones = [], currentStage, onTriggerEva
 
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-gray-900/80 text-gray-400 uppercase font-mono text-[10px] border-b border-gray-800">
+          <thead className="bg-[var(--bg-card-subtle)] text-[var(--text-secondary)] uppercase font-mono text-[10px] border-b border-[var(--border-main)]">
             <tr>
-              <th className="py-2.5 px-3">Priority Rank</th>
-              <th className="py-2.5 px-3">Habitation Zone</th>
-              <th className="py-2.5 px-3">Population</th>
-              <th className="py-2.5 px-3">Distance & Bearing</th>
-              <th className="py-2.5 px-3">Designated Safe Shelter</th>
-              <th className="py-2.5 px-3">Est. Transit Time</th>
-              <th className="py-2.5 px-3">Status</th>
-              <th className="py-2.5 px-3 text-right">Action</th>
+              <th className="py-3 px-3.5">Priority Rank</th>
+              <th className="py-3 px-3.5">Habitation Zone</th>
+              <th className="py-3 px-3.5">Population</th>
+              <th className="py-3 px-3.5">Distance & Bearing</th>
+              <th className="py-3 px-3.5">Designated Safe Shelter</th>
+              <th className="py-3 px-3.5">Est. Transit Time</th>
+              <th className="py-3 px-3.5">Status</th>
+              <th className="py-3 px-3.5 text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-800/60 font-medium">
+          <tbody className="divide-y divide-[var(--border-main)] font-medium">
             {rankedZones.map((zone, idx) => {
               const isCrit = zone.urgency === 'CRITICAL';
               const isHigh = zone.urgency === 'HIGH';
@@ -62,56 +61,56 @@ export default function RelocationTable({ zones = [], currentStage, onTriggerEva
               return (
                 <tr 
                   key={zone.id} 
-                  className={`transition-colors ${isCrit ? 'bg-red-950/20' : isHigh ? 'bg-amber-950/15' : 'hover:bg-gray-850/50'}`}
+                  className={`transition-colors ${isCrit ? 'bg-red-50/50 dark:bg-red-950/20' : isHigh ? 'bg-amber-50/50 dark:bg-amber-950/15' : 'hover:bg-[var(--bg-card-subtle)]'}`}
                 >
-                  <td className="py-3 px-3 font-mono">
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                      isCrit ? 'bg-red-500 text-white animate-pulse' :
-                      isHigh ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' :
-                      'bg-gray-800 text-gray-400'
+                  <td className="py-3 px-3.5 font-mono">
+                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+                      isCrit ? 'bg-red-600 text-white' :
+                      isHigh ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400' :
+                      'bg-[var(--bg-card-subtle)] text-[var(--text-secondary)]'
                     }`}>
                       #{idx + 1}
                     </span>
                   </td>
-                  <td className="py-3 px-3">
-                    <div className="font-bold text-gray-200">{zone.name}</div>
-                    <div className="text-[10px] text-gray-400 font-mono">ID: {zone.id}</div>
+                  <td className="py-3 px-3.5">
+                    <div className="font-bold text-[var(--text-primary)]">{zone.name}</div>
+                    <div className="text-[10px] text-[var(--text-secondary)] font-mono">ID: {zone.id}</div>
                   </td>
-                  <td className="py-3 px-3 font-mono text-gray-300">
+                  <td className="py-3 px-3.5 font-mono text-[var(--text-primary)]">
                     {zone.population.toLocaleString()} pax
                   </td>
-                  <td className="py-3 px-3 font-mono text-gray-400">
+                  <td className="py-3 px-3.5 font-mono text-[var(--text-secondary)]">
                     {zone.distanceKm} km @ {zone.bearingDeg}°
                   </td>
-                  <td className="py-3 px-3">
-                    <div className="text-emerald-400 flex items-center gap-1 font-semibold">
+                  <td className="py-3 px-3.5">
+                    <div className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-semibold">
                       <Shield className="w-3.5 h-3.5" />
                       {zone.designatedShelter}
                     </div>
-                    <div className="text-[10px] text-gray-400">Cap: {zone.shelterCapacity}</div>
+                    <div className="text-[10px] text-[var(--text-secondary)]">Cap: {zone.shelterCapacity}</div>
                   </td>
-                  <td className="py-3 px-3 font-mono text-cyan-300">
+                  <td className="py-3 px-3.5 font-mono text-[var(--text-primary)]">
                     <div className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-gray-400" />
+                      <Clock className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
                       {zone.estEvacuationTimeMin} mins
                     </div>
                   </td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
-                      isCrit ? 'bg-red-500/20 border border-red-500/50 text-red-400 animate-pulse' :
-                      isHigh ? 'bg-amber-500/20 border border-amber-500/40 text-amber-400' :
-                      'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
+                  <td className="py-3 px-3.5">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      isCrit ? 'bg-red-50 text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' :
+                      isHigh ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' :
+                      'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800'
                     }`}>
                       {zone.status}
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-right">
+                  <td className="py-3 px-3.5 text-right">
                     <button
-                      onClick={() => onTriggerEvacuation(zone)}
-                      className={`px-3 py-1.5 rounded text-xs font-bold transition-all cursor-pointer ${
+                      onClick={() => onTriggerEvacuation && onTriggerEvacuation(zone)}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         isCrit 
-                          ? 'bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/30 animate-pulse' 
-                          : 'bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700'
+                          ? 'bg-red-600 hover:bg-red-500 text-white shadow-sm' 
+                          : 'bg-[var(--bg-secondary)] hover:bg-[var(--bg-card-subtle)] text-[var(--text-primary)] border border-[var(--border-main)]'
                       }`}
                     >
                       {isCrit ? 'DISPATCH NDRF' : 'Issue Alert'}

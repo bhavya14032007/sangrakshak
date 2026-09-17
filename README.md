@@ -4,7 +4,7 @@
 > **Smart India Hackathon (SIH) — Problem Statement 26191**  
 > *"Intelligent Identification of Hazard-Based Red Zones, Carrying Capacity Assessment, and Immediate Relocation Needs for Vulnerable Habitations."*  
 > **Chosen Vertical**: **Chemical & Petrochemical Industries**  
-> **Public GitHub Repository**: [https://github.com/sanrakshak-sih/sanrakshak](https://github.com/sanrakshak-sih/sanrakshak)
+> **Public GitHub Repository**: [https://github.com/bhavya14032007/SIH-final2026](https://github.com/bhavya14032007/SIH-final2026)
 
 ---
 

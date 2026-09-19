@@ -163,6 +163,10 @@ body {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 1rem;
+  gap: .1rem;
+  margin-bottom: 1rem;
+  
 }
 
 .theme-card:hover {

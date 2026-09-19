@@ -1,7 +1,9 @@
 // SANRAKSHAK API Client with Graceful Fallback
 import { INITIAL_SENSORS, POPULATION_ZONES, INITIAL_ALERTS, SIMULATION_STAGES } from '../data/mockData';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const RAW_URL = import.meta.env.VITE_API_BASE_URL || 'https://sangrakshak-updated-backend.onrender.com';
+const CLEAN_URL = RAW_URL.replace(/\/+$/, '');
+const API_BASE_URL = CLEAN_URL.endsWith('/api') ? CLEAN_URL : `${CLEAN_URL}/api`;
 
 export const api = {
   async fetchSensors() {

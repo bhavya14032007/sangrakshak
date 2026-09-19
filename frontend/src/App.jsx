@@ -142,7 +142,7 @@ export default function App() {
                 <main
                   style={{
                     flex: 1,
-                    padding: '24px 20px',
+                    padding: '32px 24px',
                     overflowX: 'hidden'
                   }}
                 >

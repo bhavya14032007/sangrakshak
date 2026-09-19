@@ -23,19 +23,34 @@ def init_db(app):
     db_path = os.path.join(os.path.dirname(__file__), 'sanrakshak.db')
     if not os.path.exists(db_path):
         conn = sqlite3.connect(db_path)
-        schema_path = os.path.join(os.path.dirname(__file__), '..', 'database', 'schema.sql')
-        seed_path = os.path.join(os.path.dirname(__file__), '..', 'database', 'seed.sql')
+        # Check standard locations for schema & seed
+        schema_candidates = [
+            os.path.join(os.path.dirname(__file__), '..', 'database', 'schema.sql'),
+            os.path.join(os.path.dirname(__file__), 'database', 'schema.sql'),
+            os.path.join(os.path.dirname(__file__), 'schema.sql'),
+        ]
+        seed_candidates = [
+            os.path.join(os.path.dirname(__file__), '..', 'database', 'seed.sql'),
+            os.path.join(os.path.dirname(__file__), 'database', 'seed.sql'),
+            os.path.join(os.path.dirname(__file__), 'seed.sql'),
+        ]
 
-        with open(schema_path, 'r') as f:
-            conn.executescript(f.read())
+        schema_path = next((p for p in schema_candidates if os.path.exists(p)), None)
+        seed_path = next((p for p in seed_candidates if os.path.exists(p)), None)
 
-        if os.path.exists(seed_path):
-            with open(seed_path, 'r') as f:
+        if schema_path and os.path.exists(schema_path):
+            with open(schema_path, 'r', encoding='utf-8') as f:
                 conn.executescript(f.read())
+            print(f"[SANRAKSHAK] Schema loaded from {schema_path}")
+
+        if seed_path and os.path.exists(seed_path):
+            with open(seed_path, 'r', encoding='utf-8') as f:
+                conn.executescript(f.read())
+            print(f"[SANRAKSHAK] Seed data loaded from {seed_path}")
 
         conn.commit()
         conn.close()
-        print("[SANRAKSHAK] Database initialized with schema and seed data.")
+        print("[SANRAKSHAK] Database initialized successfully.")
     else:
         print("[SANRAKSHAK] Database already exists.")
 
@@ -102,11 +117,12 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
+    port = int(os.environ.get('PORT', 5000))
     print("\n" + "=" * 60)
     print("  SANRAKSHAK - Industrial Safety Intelligence")
     print("  AI-Powered Hazard Prediction & Early Warning")
     print("=" * 60)
-    print(f"  API: http://localhost:5000/api")
-    print(f"  Health: http://localhost:5000/api/health")
+    print(f"  API: http://0.0.0.0:{port}/api")
+    print(f"  Health: http://0.0.0.0:{port}/api/health")
     print("=" * 60 + "\n")
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=port, debug=False)

@@ -14,8 +14,7 @@ from config import Config
 
 # Try to import Gemini SDK
 try:
-    # pyrefly: ignore [missing-import]
-    import d .generativeai as genai
+    import google.generativeai as genai
     GEMINI_AVAILABLE = True
 except ImportError:
     GEMINI_AVAILABLE = False
